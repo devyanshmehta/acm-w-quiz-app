@@ -201,7 +201,7 @@
   </div>
 
   <script>
-    // 1. Sample Question Set (15 Questions Total)
+    // Question Set (15 Questions)
     const quizData = [
       { question: "What does AI stand for?", options: ["Artificial Intelligence", "Automated Integration", "Advanced Interface", "Algorithmic Insight"], answer: 0 },
       { question: "Which test evaluates if a machine exhibits human intelligence?", options: ["Voight-Kampff Test", "Turing Test", "CAPTCHA Test", "Binary Test"], answer: 1 },
@@ -224,9 +224,9 @@
     let score = 0;
     let isAnswered = false;
 
-    // 2. Start/Reset Quiz State
+    // Reset Quiz State
     function startQuiz() {
-      score = 0; // RESET SCORE TO ZERO
+      score = 0;
       currentQuestionIndex = 0;
       isAnswered = false;
 
@@ -236,7 +236,7 @@
       showQuestion();
     }
 
-    // 3. Render Current Question
+    // Render Question & Randomize Option Order
     function showQuestion() {
       isAnswered = false;
       const q = quizData[currentQuestionIndex];
@@ -245,25 +245,37 @@
       const optionsContainer = document.getElementById('options-container');
       optionsContainer.innerHTML = '';
 
-      q.options.forEach((optText, idx) => {
+      // Prepare options with their original index to track correctness
+      const mappedOptions = q.options.map((optText, idx) => ({
+        text: optText,
+        isCorrect: idx === q.answer
+      }));
+
+      // Shuffle options randomly (Fisher-Yates Shuffle)
+      for (let i = mappedOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [mappedOptions[i], mappedOptions[j]] = [mappedOptions[j], mappedOptions[i]];
+      }
+
+      // Render shuffled buttons
+      mappedOptions.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
-        btn.textContent = optText;
-        btn.onclick = () => selectOption(idx);
+        btn.textContent = opt.text;
+        btn.onclick = () => selectOption(opt.isCorrect);
         optionsContainer.appendChild(btn);
       });
     }
 
-    // 4. Handle Option Selection & Prevent Spam Clicks
-    function selectOption(selectedIndex) {
+    // Option Selection & Click Locking
+    function selectOption(isCorrect) {
       if (isAnswered) return;
       isAnswered = true;
 
-      // Lock buttons instantly
       const buttons = document.querySelectorAll('.option-btn');
       buttons.forEach(b => b.disabled = true);
 
-      if (selectedIndex === quizData[currentQuestionIndex].answer) {
+      if (isCorrect) {
         score++;
       }
 
@@ -274,13 +286,13 @@
         } else {
           showResults();
         }
-      }, 500);
+      }, 400);
     }
 
-    // 5. Compute & Display Final Clean Results
+    // Display Final Clean Results
     function showResults() {
-      const totalQuestions = quizData.length; // Dynamic 15
-      const finalScore = Math.min(score, totalQuestions); // Cap score at max
+      const totalQuestions = quizData.length;
+      const finalScore = Math.min(score, totalQuestions);
       const accuracy = Math.round((finalScore / totalQuestions) * 100);
 
       document.getElementById('score-display').textContent = `${finalScore}/${totalQuestions}`;
@@ -290,7 +302,6 @@
       document.getElementById('results-screen').classList.remove('hidden');
     }
 
-    // Auto-start on load
     startQuiz();
   </script>
 </body>

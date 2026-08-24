@@ -260,6 +260,360 @@ AI Knowledge Championship
 <p>
 Enter your name to start the AI assessment.
 </p>
+  <div id="script">
+
+<script>
+
+const questions=[
+
+{
+q:"What does ACM stand for?",
+o:["Association for Computing Machinery","Advanced Computer Machine","Artificial Code Method","Applied Computing Model"],
+a:0
+},
+
+{
+q:"ACM-W mainly supports:",
+o:["Women in computing","Computer sales","Gaming companies","Internet providers"],
+a:0
+},
+
+{
+q:"AI stands for:",
+o:["Artificial Intelligence","Automatic Internet","Advanced Interface","Applied Information"],
+a:0
+},
+
+{
+q:"Machine Learning allows computers to:",
+o:["Learn patterns from data","Replace electricity","Create hardware","Repair screens"],
+a:0
+},
+
+{
+q:"Which language is popular for AI development?",
+o:["Python","HTML","CSS","XML"],
+a:0
+},
+
+{
+q:"A dataset is:",
+o:["A collection of data","A computer chip","A password","A browser"],
+a:0
+},
+
+{
+q:"NLP helps computers understand:",
+o:["Human language","Computer cables","Battery power","Screens"],
+a:0
+},
+
+{
+q:"Neural networks are inspired by:",
+o:["Human brain","Keyboard","Monitor","Printer"],
+a:0
+},
+
+{
+q:"Responsible AI focuses on:",
+o:["Fairness and safety","Removing testing","Ignoring users","Hiding data"],
+a:0
+},
+
+{
+q:"AI models are tested to check:",
+o:["Performance accuracy","Screen brightness","Internet speed","Hardware size"],
+a:0
+},
+
+{
+q:"Deep Learning uses:",
+o:["Neural networks","Printers","USB drives","Antennas"],
+a:0
+},
+
+{
+q:"Computer vision helps AI understand:",
+o:["Images","Passwords","Batteries","Cables"],
+a:0
+},
+
+{
+q:"Algorithm means:",
+o:["Step-by-step solution","Computer screen","Storage device","Network cable"],
+a:0
+},
+
+{
+q:"Cloud computing provides:",
+o:["Online computing resources","Keyboard repair","Physical machines only","Paper storage"],
+a:0
+},
+
+{
+q:"ACM is related to:",
+o:["Computing and technology","Food science","Sports","Medicine"],
+a:0
+}
+
+];
+
+
+let index=0;
+let score=0;
+let time=20;
+let timer;
+let player="";
+
+
+function startQuiz(){
+
+player=document.getElementById("name").value;
+
+if(player==""){
+player="Explorer";
+}
+
+
+index=0;
+score=0;
+
+
+showQuestion();
+
+}
+
+
+
+function showQuestion(){
+
+
+let app=document.getElementById("app");
+
+
+if(index>=questions.length){
+
+clearInterval(timer);
+
+
+let percent=Math.round(
+(score/questions.length)*100
+);
+
+
+let rank;
+
+
+if(percent>=80){
+rank="🏆 AI Master";
+}
+
+else if(percent>=60){
+rank="🚀 AI Explorer";
+}
+
+else{
+rank="🌱 AI Beginner";
+}
+
+
+app.innerHTML=`
+
+<h2>Mission Complete</h2>
+
+<p>${player}, your AI report is ready.</p>
+
+
+<div class="score">
+${score}/${questions.length}
+</div>
+
+
+<h2>${percent}% Accuracy</h2>
+
+
+<div class="badge">
+${rank}
+</div>
+
+
+<p>
+You completed the ACM-W AI Nexus challenge.
+</p>
+
+
+<button onclick="location.reload()">
+Restart Mission
+</button>
+
+`;
+
+return;
+
+}
+
+
+
+let q=questions[index];
+
+
+time=20;
+
+
+app.innerHTML=
+
+`
+
+<div class="top">
+
+<span>
+Question ${index+1}/${questions.length}
+</span>
+
+
+<span class="timer">
+⏱ <span id="time">20</span>s
+</span>
+
+
+</div>
+
+
+
+<div class="progress">
+
+<div style="
+width:${(index/questions.length)*100}%
+">
+
+</div>
+
+</div>
+
+
+<h2>${q.q}</h2>
+
+
+${q.o.map((x,i)=>
+
+`
+
+<button class="option"
+onclick="answer(${i},this)">
+
+${x}
+
+</button>
+
+`
+
+).join("")}
+
+
+`;
+
+
+startTimer();
+
+}
+
+
+
+
+function startTimer(){
+
+clearInterval(timer);
+
+
+timer=setInterval(()=>{
+
+
+time--;
+
+
+let t=document.getElementById("time");
+
+
+if(t){
+t.innerHTML=time;
+}
+
+
+
+if(time<=0){
+
+clearInterval(timer);
+
+index++;
+
+showQuestion();
+
+}
+
+
+},1000);
+
+
+}
+
+
+
+
+
+function answer(selected,button){
+
+
+clearInterval(timer);
+
+
+let buttons=document.querySelectorAll(".option");
+
+
+buttons.forEach((b,i)=>{
+
+
+if(i===questions[index].a){
+
+b.classList.add("correct");
+
+}
+
+
+});
+
+
+if(selected!==questions[index].a){
+
+button.classList.add("wrong");
+
+}
+
+else{
+
+score++;
+
+}
+
+
+setTimeout(()=>{
+
+index++;
+
+showQuestion();
+
+
+},800);
+
+
+
+}
+
+
+</script>
+
+</body>
+
+</html>
 
 
 <input id="name" placeholder="Enter your name">

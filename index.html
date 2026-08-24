@@ -204,7 +204,7 @@
       <div class="creator-tag">Created by <strong>Devyansh Mehta</strong></div>
     </div>
 
-    <!-- 1. Start Screen -->
+    <!-- 1. Start Screen (Default Visible) -->
     <div id="start-screen" class="card">
       <h2 class="card-title">Welcome Participant</h2>
       <p class="user-greeting">Enter your name to begin the AI Challenge</p>
@@ -268,6 +268,7 @@
       return arr;
     }
 
+    // Triggered when user clicks "Start Challenge" on Welcome screen
     function initiateQuiz() {
       const input = document.getElementById('username-input').value.trim();
       if (input !== "") {
@@ -344,7 +345,6 @@
       document.getElementById('score-display').textContent = `${finalScore}/${totalQuestions}`;
       document.getElementById('accuracy-display').textContent = `${accuracy}% Accuracy`;
 
-      // Set custom remark based on performance score
       const remarkElement = document.getElementById('remark-display');
       if (finalScore > 10) {
         remarkElement.textContent = "🌟 Great Job! Outstanding Performance!";

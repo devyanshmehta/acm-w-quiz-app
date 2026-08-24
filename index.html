@@ -74,6 +74,24 @@
       margin-bottom: 8px;
     }
 
+    .name-input {
+      width: 100%;
+      max-width: 320px;
+      padding: 12px 18px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border: 1px solid #00f2fe;
+      background: rgba(3, 13, 24, 0.8);
+      color: #fff;
+      font-size: 1rem;
+      text-align: center;
+      outline: none;
+    }
+
+    .name-input:focus {
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+    }
+
     .user-greeting {
       font-size: 0.95rem;
       color: #cbd5e1;
@@ -92,11 +110,19 @@
       font-size: 1.5rem;
       font-weight: 700;
       color: #ffffff;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
+    }
+
+    .remark-text {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #00f2fe;
+      text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+      margin-bottom: 10px;
     }
 
     .badge-text {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #ffb703;
       font-weight: 600;
       margin-bottom: 10px;
@@ -178,19 +204,29 @@
       <div class="creator-tag">Created by <strong>Devyansh Mehta</strong></div>
     </div>
 
-    <!-- Active Quiz Screen -->
-    <div id="quiz-screen" class="card">
+    <!-- 1. Start Screen -->
+    <div id="start-screen" class="card">
+      <h2 class="card-title">Welcome Participant</h2>
+      <p class="user-greeting">Enter your name to begin the AI Challenge</p>
+      <input type="text" id="username-input" class="name-input" placeholder="Enter your name..." />
+      <br />
+      <button class="btn-action" onclick="initiateQuiz()">Start Challenge</button>
+    </div>
+
+    <!-- 2. Active Quiz Screen -->
+    <div id="quiz-screen" class="card hidden">
       <div id="question-text" class="question-box">Loading question...</div>
       <div id="options-container" class="options-grid"></div>
     </div>
 
-    <!-- Final Results Screen -->
+    <!-- 3. Final Results Screen -->
     <div id="results-screen" class="card hidden">
       <h2 class="card-title">Mission Complete</h2>
-      <p class="user-greeting">Participant, your AI report is ready.</p>
+      <p id="user-greeting-report" class="user-greeting">your AI report is ready.</p>
       
       <div id="score-display" class="score-number">0/15</div>
       <div id="accuracy-display" class="accuracy-text">0% Accuracy</div>
+      <div id="remark-display" class="remark-text">Great Job! 🎉</div>
       <div id="badge-display" class="badge-text">🏆 AI Master</div>
       <p class="completion-note">You completed the ACM-W AI Nexus challenge.</p>
 
@@ -199,7 +235,6 @@
   </div>
 
   <script>
-    // Master Question Pool
     const rawQuizData = [
       { question: "What does AI stand for?", options: ["Artificial Intelligence", "Automated Integration", "Advanced Interface", "Algorithmic Insight"], answer: 0 },
       { question: "Which test evaluates if a machine exhibits human intelligence?", options: ["Turing Test", "Voight-Kampff Test", "CAPTCHA Test", "Binary Test"], answer: 0 },
@@ -218,12 +253,12 @@
       { question: "What field combines vision processing with AI?", options: ["Computer Vision", "Graphics Rendering", "Spatial Audio", "Haptics"], answer: 0 }
     ];
 
+    let userName = "Participant";
     let activeQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
     let isAnswered = false;
 
-    // Helper: Fisher-Yates Array Shuffle
     function shuffleArray(array) {
       const arr = [...array];
       for (let i = arr.length - 1; i > 0; i--) {
@@ -233,13 +268,20 @@
       return arr;
     }
 
-    // Start / Reset Quiz Logic
+    function initiateQuiz() {
+      const input = document.getElementById('username-input').value.trim();
+      if (input !== "") {
+        userName = input;
+      }
+      document.getElementById('start-screen').classList.add('hidden');
+      startQuiz();
+    }
+
     function startQuiz() {
       score = 0;
       currentQuestionIndex = 0;
       isAnswered = false;
 
-      // Shuffle order of questions for every attempt
       activeQuestions = shuffleArray(rawQuizData);
 
       document.getElementById('results-screen').classList.add('hidden');
@@ -248,7 +290,6 @@
       showQuestion();
     }
 
-    // Display Current Question with Shuffled Options
     function showQuestion() {
       isAnswered = false;
       const q = activeQuestions[currentQuestionIndex];
@@ -257,7 +298,6 @@
       const optionsContainer = document.getElementById('options-container');
       optionsContainer.innerHTML = '';
 
-      // Map options to track correctness, then shuffle them
       const mappedOptions = q.options.map((optText, idx) => ({
         text: optText,
         isCorrect: idx === q.answer
@@ -265,7 +305,6 @@
       
       const shuffledOptions = shuffleArray(mappedOptions);
 
-      // Render buttons in randomized order
       shuffledOptions.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
@@ -275,7 +314,6 @@
       });
     }
 
-    // Handle Option Selection
     function selectOption(isCorrect) {
       if (isAnswered) return;
       isAnswered = true;
@@ -297,21 +335,28 @@
       }, 350);
     }
 
-    // Render Clean Final Performance Score
     function showResults() {
       const totalQuestions = activeQuestions.length;
       const finalScore = Math.min(score, totalQuestions);
       const accuracy = Math.round((finalScore / totalQuestions) * 100);
 
+      document.getElementById('user-greeting-report').textContent = `${userName}, your AI report is ready.`;
       document.getElementById('score-display').textContent = `${finalScore}/${totalQuestions}`;
       document.getElementById('accuracy-display').textContent = `${accuracy}% Accuracy`;
+
+      // Set custom remark based on performance score
+      const remarkElement = document.getElementById('remark-display');
+      if (finalScore > 10) {
+        remarkElement.textContent = "🌟 Great Job! Outstanding Performance!";
+      } else if (finalScore >= 6) {
+        remarkElement.textContent = "👍 Good Effort! Keep Learning!";
+      } else {
+        remarkElement.textContent = "💪 Nice Attempt! Try again to boost your score!";
+      }
 
       document.getElementById('quiz-screen').classList.add('hidden');
       document.getElementById('results-screen').classList.remove('hidden');
     }
-
-    // Initialize application
-    startQuiz();
   </script>
 </body>
 </html>

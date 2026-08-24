@@ -1,46 +1,469 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>ACM-W AI Nexus Quiz</title>
 
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Segoe UI,Arial;
+}
+
+body{
+
+margin:0;
+height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:
+radial-gradient(circle,#164e63,#020617);
+
+color:white;
+
+overflow:hidden;
+
+}
+
+
+body:before{
+
+content:"";
+
+position:absolute;
+width:100%;
+height:100%;
+
+background-image:
+radial-gradient(#38bdf8 1px,transparent 1px);
+
+background-size:35px 35px;
+
+opacity:.2;
+
+}
+
+
+.container{
+
+position:relative;
+
+width:90%;
+max-width:700px;
+
+text-align:center;
+
+}
+
+
+h1{
+
+font-size:45px;
+
+color:#22d3ee;
+
+text-shadow:
+0 0 15px cyan,
+0 0 35px cyan;
+
+}
+
+
+.subtitle{
+
+color:#cbd5e1;
+
+}
+
+
+.card{
+
+background:
+rgba(15,23,42,.9);
+
+padding:35px;
+
+border-radius:25px;
+
+border:1px solid #22d3ee;
+
+box-shadow:
+0 0 40px rgba(34,211,238,.5);
+
+}
+
+
+button{
+
+width:90%;
+
+padding:15px;
+
+margin:10px;
+
+border:none;
+
+border-radius:30px;
+
+font-size:17px;
+
+cursor:pointer;
+
+color:white;
+
+background:
+linear-gradient(90deg,#06b6d4,#8b5cf6);
+
+transition:.3s;
+
+}
+
+
+button:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 25px cyan;
+
+}
+
+
+.option{
+
+background:#111827;
+
+text-align:left;
+
+border:1px solid #334155;
+
+}
+
+
+.progress{
+
+height:10px;
+
+background:#1e293b;
+
+border-radius:10px;
+
+}
+
+
+.bar{
+
+height:10px;
+
+background:#22d3ee;
+
+border-radius:10px;
+
+}
+
+
+.score{
+
+font-size:50px;
+
+color:#22d3ee;
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-<div class="stars"></div>
 
 <div class="container">
+
 
 <h1>🤖 ACM-W AI NEXUS</h1>
 
 <p class="subtitle">
-Future Computing • Artificial Intelligence Challenge
+Future Computing • AI Knowledge Challenge
 </p>
 
 
-<div class="card" id="quizCard">
+<div class="card" id="box">
 
 <h2>Welcome Explorer</h2>
 
 <p>
-Initialize your AI knowledge assessment.
-Test your understanding of ACM-W and Artificial Intelligence.
+Test your knowledge of ACM-W and Artificial Intelligence.
 </p>
 
+
 <button onclick="startQuiz()">
-INITIALIZE QUIZ
+START AI MISSION
 </button>
 
+
+</div>
+
+
+</div>
+
+
+
+
+<script>
+
+
+const questions=[
+
+{
+q:"What does ACM stand for?",
+o:[
+"Association for Computing Machinery",
+"Advanced Computer Machine",
+"Artificial Code Method",
+"Applied Computing Model"
+],
+a:0
+},
+
+
+{
+q:"ACM-W focuses on:",
+o:[
+"Supporting women in computing",
+"Making computers",
+"Gaming",
+"Internet services"
+],
+a:0
+},
+
+
+{
+q:"AI means:",
+o:[
+"Artificial Intelligence",
+"Automatic Internet",
+"Advanced Interface",
+"Applied Information"
+],
+a:0
+},
+
+
+{
+q:"Machine Learning works with:",
+o:[
+"Data patterns",
+"Only hardware",
+"Cables",
+"Printers"
+],
+a:0
+},
+
+
+{
+q:"Popular AI programming language:",
+o:[
+"Python",
+"HTML",
+"CSS",
+"XML"
+],
+a:0
+},
+
+
+{
+q:"A neural network is inspired by:",
+o:[
+"Human brain",
+"Keyboard",
+"Monitor",
+"Battery"
+],
+a:0
+},
+
+
+{
+q:"NLP helps computers understand:",
+o:[
+"Human language",
+"Electricity",
+"Images only",
+"Hardware"
+],
+a:0
+},
+
+
+{
+q:"AI testing checks:",
+o:[
+"Model performance",
+"Screen size",
+"Internet speed",
+"Keyboard"
+],
+a:0
+},
+
+
+{
+q:"Responsible AI focuses on:",
+o:[
+"Fairness and safety",
+"More ads",
+"Less testing",
+"Secret data"
+],
+a:0
+},
+
+
+{
+q:"Dataset means:",
+o:[
+"Collection of data",
+"Computer part",
+"Password",
+"Software"
+],
+a:0
+}
+
+];
+
+
+let current=0;
+
+let score=0;
+
+
+
+function startQuiz(){
+
+showQuestion();
+
+}
+
+
+
+function showQuestion(){
+
+
+let box=document.getElementById("box");
+
+
+if(current>=questions.length){
+
+
+box.innerHTML=
+
+`
+
+<h2>🤖 AI REPORT COMPLETE</h2>
+
+<div class="score">
+
+${score}/${questions.length}
+
+</div>
+
+
+<p>
+Your AI knowledge score is generated.
+</p>
+
+
+<button onclick="location.reload()">
+Restart Mission
+</button>
+
+`;
+
+return;
+
+}
+
+
+
+let q=questions[current];
+
+
+box.innerHTML=
+
+`
+
+<h3>
+Question ${current+1}/${questions.length}
+</h3>
+
+
+<div class="progress">
+
+<div class="bar"
+
+style="width:${current/questions.length*100}%">
+
 </div>
 
 </div>
 
 
-<script src="script.js"></script>
+<h2>${q.q}</h2>
+
+
+${q.o.map((x,i)=>
+
+`
+
+<button class="option"
+
+onclick="answer(${i})">
+
+${x}
+
+</button>
+
+`
+
+).join("")}
+
+
+`;
+
+}
+
+
+
+function answer(i){
+
+
+if(i===questions[current].a){
+
+score++;
+
+}
+
+
+current++;
+
+showQuestion();
+
+
+}
+
+
+</script>
+
 
 </body>
 </html>

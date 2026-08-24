@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACM-W AI Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <div class="brand"><span class="brand-mark">ACM</span><span>ACM-W</span></div>
+      <div class="pill">AI + ACM Basics</div>
+      <h1>ACM-W Interactive Quiz</h1>
+      <p>Test your knowledge of ACM, ACM-W, and fundamental Artificial Intelligence concepts.</p>
+    </header>
+
+    <section id="startScreen" class="card start-screen">
+      <div class="icon">✦</div>
+      <h2>Ready to begin?</h2>
+      <p>15 multiple-choice questions. Choose the best answer for each question and submit at the end.</p>
+      <ul class="features">
+        <li>15 questions</li>
+        <li>Instant progress tracking</li>
+        <li>Accurate scoring</li>
+        <li>Detailed answer review</li>
+      </ul>
+      <button id="startBtn" class="primary">Start Quiz</button>
+    </section>
+
+    <section id="quizScreen" class="card hidden">
+      <div class="quiz-top">
+        <span id="progressText">Question 1 of 15</span>
+        <span id="scoreLive">0 correct</span>
+      </div>
+      <div class="progress"><div id="progressBar"></div></div>
+
+      <div id="questionBox"></div>
+
+      <div class="actions">
+        <button id="nextBtn" class="primary" disabled>Next Question</button>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="card hidden result">
+      <div class="result-badge">✓</div>
+      <p class="eyebrow">QUIZ COMPLETE</p>
+      <h2 id="resultTitle">Great job!</h2>
+      <div class="score-ring"><span id="finalScore">0/15</span></div>
+      <p id="resultMessage"></p>
+      <div class="result-actions">
+        <button id="reviewBtn" class="secondary">Review Answers</button>
+        <button id="restartBtn" class="primary">Try Again</button>
+      </div>
+      <div id="reviewBox" class="review hidden"></div>
+    </section>
+
+    <footer>Built for the ACM-W recruitment challenge • Single-page interactive quiz</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

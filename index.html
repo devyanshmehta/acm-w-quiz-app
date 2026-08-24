@@ -108,7 +108,6 @@
       margin-bottom: 30px;
     }
 
-    /* Quiz Question Styles */
     .question-box {
       font-size: 1.2rem;
       margin-bottom: 25px;
@@ -145,7 +144,6 @@
       opacity: 0.6;
     }
 
-    /* Common Button Style */
     .btn-action {
       background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
       color: #ffffff;
@@ -201,34 +199,48 @@
   </div>
 
   <script>
-    // Question Set (15 Questions)
-    const quizData = [
+    // Master Question Pool
+    const rawQuizData = [
       { question: "What does AI stand for?", options: ["Artificial Intelligence", "Automated Integration", "Advanced Interface", "Algorithmic Insight"], answer: 0 },
-      { question: "Which test evaluates if a machine exhibits human intelligence?", options: ["Voight-Kampff Test", "Turing Test", "CAPTCHA Test", "Binary Test"], answer: 1 },
+      { question: "Which test evaluates if a machine exhibits human intelligence?", options: ["Turing Test", "Voight-Kampff Test", "CAPTCHA Test", "Binary Test"], answer: 0 },
       { question: "Which algorithm is commonly used for neural network training?", options: ["Backpropagation", "QuickSort", "Dijkstra's Algorithm", "K-Means"], answer: 0 },
       { question: "What does ACM-W support?", options: ["Women in Computing", "Hardware Manufacturing", "Web Browsers", "Database Management"], answer: 0 },
-      { question: "Which field sub-categorizes Machine Learning?", options: ["Robotics", "Artificial Intelligence", "Cybersecurity", "Networking"], answer: 1 },
-      { question: "What type of learning uses labelled data?", options: ["Unsupervised Learning", "Supervised Learning", "Reinforcement Learning", "Self Learning"], answer: 1 },
-      { question: "Which parameter controls learning speed in ML?", options: ["Epoch Rate", "Learning Rate", "Batch Size", "Momentum"], answer: 1 },
-      { question: "What is NLP in Artificial Intelligence?", options: ["National Logic Protocol", "Natural Language Processing", "Neural Link Programming", "Network Layer Protocol"], answer: 1 },
+      { question: "Which field sub-categorizes Machine Learning?", options: ["Artificial Intelligence", "Robotics", "Cybersecurity", "Networking"], answer: 0 },
+      { question: "What type of learning uses labelled data?", options: ["Supervised Learning", "Unsupervised Learning", "Reinforcement Learning", "Self Learning"], answer: 0 },
+      { question: "Which parameter controls learning speed in ML?", options: ["Learning Rate", "Epoch Rate", "Batch Size", "Momentum"], answer: 0 },
+      { question: "What is NLP in Artificial Intelligence?", options: ["Natural Language Processing", "National Logic Protocol", "Neural Link Programming", "Network Layer Protocol"], answer: 0 },
       { question: "Which AI model type generates new text or media?", options: ["Generative AI", "Analytical AI", "Reactive AI", "Deterministic AI"], answer: 0 },
-      { question: "What is the main component of a Deep Learning system?", options: ["Decision Trees", "Artificial Neural Networks", "Relational Tables", "State Machines"], answer: 1 },
-      { question: "Which algorithm uses reward-based learning?", options: ["Supervised Learning", "Unsupervised Learning", "Reinforcement Learning", "Clustering"], answer: 2 },
+      { question: "What is the main component of a Deep Learning system?", options: ["Artificial Neural Networks", "Decision Trees", "Relational Tables", "State Machines"], answer: 0 },
+      { question: "Which algorithm uses reward-based learning?", options: ["Reinforcement Learning", "Supervised Learning", "Unsupervised Learning", "Clustering"], answer: 0 },
       { question: "What is overfitting in Machine Learning?", options: ["Model fits training data too well", "Model is too simple", "Model trains too fast", "Model lacks memory"], answer: 0 },
       { question: "Which python library is widely used for Data Science?", options: ["Pandas", "React", "Django", "Laravel"], answer: 0 },
       { question: "What does LLM stand for?", options: ["Large Language Model", "Linear Logic Machine", "Logical Link Method", "Latent Learning Mode"], answer: 0 },
       { question: "What field combines vision processing with AI?", options: ["Computer Vision", "Graphics Rendering", "Spatial Audio", "Haptics"], answer: 0 }
     ];
 
+    let activeQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
     let isAnswered = false;
 
-    // Reset Quiz State
+    // Helper: Fisher-Yates Array Shuffle
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Start / Reset Quiz Logic
     function startQuiz() {
       score = 0;
       currentQuestionIndex = 0;
       isAnswered = false;
+
+      // Shuffle order of questions for every attempt
+      activeQuestions = shuffleArray(rawQuizData);
 
       document.getElementById('results-screen').classList.add('hidden');
       document.getElementById('quiz-screen').classList.remove('hidden');
@@ -236,29 +248,25 @@
       showQuestion();
     }
 
-    // Render Question & Randomize Option Order
+    // Display Current Question with Shuffled Options
     function showQuestion() {
       isAnswered = false;
-      const q = quizData[currentQuestionIndex];
+      const q = activeQuestions[currentQuestionIndex];
       document.getElementById('question-text').textContent = `${currentQuestionIndex + 1}. ${q.question}`;
 
       const optionsContainer = document.getElementById('options-container');
       optionsContainer.innerHTML = '';
 
-      // Prepare options with their original index to track correctness
+      // Map options to track correctness, then shuffle them
       const mappedOptions = q.options.map((optText, idx) => ({
         text: optText,
         isCorrect: idx === q.answer
       }));
+      
+      const shuffledOptions = shuffleArray(mappedOptions);
 
-      // Shuffle options randomly (Fisher-Yates Shuffle)
-      for (let i = mappedOptions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [mappedOptions[i], mappedOptions[j]] = [mappedOptions[j], mappedOptions[i]];
-      }
-
-      // Render shuffled buttons
-      mappedOptions.forEach(opt => {
+      // Render buttons in randomized order
+      shuffledOptions.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.textContent = opt.text;
@@ -267,7 +275,7 @@
       });
     }
 
-    // Option Selection & Click Locking
+    // Handle Option Selection
     function selectOption(isCorrect) {
       if (isAnswered) return;
       isAnswered = true;
@@ -281,17 +289,17 @@
 
       setTimeout(() => {
         currentQuestionIndex++;
-        if (currentQuestionIndex < quizData.length) {
+        if (currentQuestionIndex < activeQuestions.length) {
           showQuestion();
         } else {
           showResults();
         }
-      }, 400);
+      }, 350);
     }
 
-    // Display Final Clean Results
+    // Render Clean Final Performance Score
     function showResults() {
-      const totalQuestions = quizData.length;
+      const totalQuestions = activeQuestions.length;
       const finalScore = Math.min(score, totalQuestions);
       const accuracy = Math.round((finalScore / totalQuestions) * 100);
 
@@ -302,6 +310,7 @@
       document.getElementById('results-screen').classList.remove('hidden');
     }
 
+    // Initialize application
     startQuiz();
   </script>
 </body>

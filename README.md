@@ -1,26 +1,29 @@
-# ACM-W Interactive Quiz App
+# ACM-W AI Nexus Pro 🤖
 
-A polished single-page quiz web application created for the ACM-W recruitment task.
+An interactive, futuristic web-based quiz application built for the ACM-W AI Knowledge Championship.
 
-## Features
-- 15 multiple-choice questions covering ACM/ACM-W and basic AI concepts
-- Responsive mobile/desktop UI
-- Interactive question selection
-- Progress bar and live score
-- Accurate final scoring
-- Result feedback
-- Full answer review with explanations
-- No backend required
+**Created by:** Devyansh Mehta  
+**Live Demo:** [https://devyanshmehta.github.io/acm-w-quiz-app/](https://devyanshmehta.github.io/acm-w-quiz-app/)
 
-## Run locally
-Open `index.html` in a browser.
+---
 
-## Deploy
-Upload the three files (`index.html`, `style.css`, `script.js`) to a GitHub repository and enable GitHub Pages, or import the project into Vercel/Netlify.
+## 🚀 Features
 
-## Submission
-Submit:
-1. GitHub repository link
-2. Live deployment URL (recommended for extra points)
+- **Futuristic UI:** Clean, responsive design optimized for laptop and mobile devices.
+- **Interactive Quiz Engine:** Covers ACM-W and Artificial Intelligence topics.
+- **Real-Time Feedback:** Instant answer validation and progress tracking.
+- **Score Reporting:** Accurate score tracking, percentage performance report, and automatic reset handling.
 
-The recruitment brief permits AI tools and asks for a single-page interactive quiz with at least 10 questions, accurate scoring, responsive UI, and optional bonus points for deployment/database integration.
+---
+
+## 🛠️ Tech Stack
+
+- **HTML5**
+- **CSS3**
+- **JavaScript (Vanilla ES6)**
+
+---
+
+## 👤 Author
+
+- **Devyansh Mehta** - [GitHub Profile](https://github.com/devyanshmehta)

@@ -1,633 +1,297 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>ACM-W AI Nexus Pro</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-
-*{
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
-
-body{
-margin:0;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-background:
-radial-gradient(circle at top,#164e63,#020617);
-color:white;
-overflow-x:hidden;
-}
-
-body:before{
-content:"";
-position:fixed;
-inset:0;
-background-image:
-radial-gradient(#22d3ee 1px,transparent 1px);
-background-size:35px 35px;
-opacity:.15;
-}
-
-
-.container{
-width:95%;
-max-width:850px;
-position:relative;
-z-index:2;
-text-align:center;
-}
-
-
-.logo{
-font-size:45px;
-font-weight:900;
-color:#22d3ee;
-text-shadow:
-0 0 20px cyan;
-}
-
-
-.subtitle{
-color:#cbd5e1;
-margin-bottom:25px;
-}
-
-
-.card{
-
-background:
-rgba(15,23,42,.88);
-
-border:1px solid #22d3ee;
-
-border-radius:25px;
-
-padding:35px;
-
-box-shadow:
-0 0 40px rgba(34,211,238,.35);
-
-}
-
-
-input{
-
-width:80%;
-
-padding:15px;
-
-border-radius:25px;
-
-border:none;
-
-outline:none;
-
-font-size:16px;
-
-margin:15px;
-
-}
-
-
-button{
-
-padding:15px 25px;
-
-margin:10px;
-
-border:none;
-
-border-radius:30px;
-
-cursor:pointer;
-
-font-size:16px;
-
-font-weight:bold;
-
-color:white;
-
-background:
-linear-gradient(90deg,#06b6d4,#8b5cf6);
-
-transition:.3s;
-
-}
-
-
-button:hover{
-
-transform:scale(1.05);
-
-box-shadow:
-0 0 25px cyan;
-
-}
-
-
-.option{
-
-display:block;
-
-width:100%;
-
-text-align:left;
-
-background:#111827;
-
-border:1px solid #334155;
-
-}
-
-
-.option.correct{
-
-background:#166534;
-
-}
-
-
-.option.wrong{
-
-background:#991b1b;
-
-}
-
-
-.top{
-
-display:flex;
-
-justify-content:space-between;
-
-margin-bottom:15px;
-
-font-weight:bold;
-
-}
-
-
-.timer{
-
-color:#facc15;
-
-font-size:22px;
-
-}
-
-
-.progress{
-
-height:12px;
-
-background:#1e293b;
-
-border-radius:20px;
-
-overflow:hidden;
-
-}
-
-
-.progress div{
-
-height:100%;
-
-background:#22d3ee;
-
-}
-
-
-.score{
-
-font-size:55px;
-
-color:#22d3ee;
-
-font-weight:900;
-
-}
-
-
-.badge{
-
-font-size:22px;
-
-color:#facc15;
-
-}
-
-
-.hidden{
-
-display:none;
-
-}
-
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACM-W AI Nexus Pro</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #0b253a 0%, #030d18 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      background: rgba(10, 25, 47, 0.75);
+      border: 1px solid #00f2fe;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #4facfe;
+      text-shadow: 0 0 12px rgba(79, 172, 254, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .header-subtitle {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+
+    .creator-tag {
+      font-size: 0.85rem;
+      color: #00f2fe;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      border-radius: 16px;
+      padding: 40px 25px;
+      margin-top: 25px;
+      box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.05);
+    }
+
+    .card-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .user-greeting {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      margin-bottom: 25px;
+    }
+
+    .score-number {
+      font-size: 3.8rem;
+      font-weight: 800;
+      color: #38ef7d;
+      text-shadow: 0 0 20px rgba(56, 239, 125, 0.4);
+      margin-bottom: 10px;
+    }
+
+    .accuracy-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 15px;
+    }
+
+    .badge-text {
+      font-size: 1.2rem;
+      color: #ffb703;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .completion-note {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-bottom: 30px;
+    }
+
+    /* Quiz Question Styles */
+    .question-box {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .option-btn {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid #4facfe;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #4facfe;
+      color: #000;
+      box-shadow: 0 0 12px rgba(79, 172, 254, 0.5);
+    }
+
+    .option-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    /* Common Button Style */
+    .btn-action {
+      background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+      color: #ffffff;
+      border: none;
+      padding: 14px 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 114, 255, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(0, 114, 255, 0.7);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
-
-
 <body>
 
-
-<div class="container">
-
-
-<div class="logo">
-🤖 ACM-W AI NEXUS PRO
-</div>
-
-
-<div class="subtitle">
-AI Knowledge Championship
-</div>
-
-
-<div class="card" id="app">
-
-
-<h2>Welcome Explorer</h2>
-
-<p>
-Enter your name to start the AI assessment.
-</p>
-  
-
-<script>
-
-const questions=[
-
-{
-q:"What does ACM stand for?",
-o:["Association for Computing Machinery","Advanced Computer Machine","Artificial Code Method","Applied Computing Model"],
-a:0
-},
-
-{
-q:"ACM-W mainly supports:",
-o:["Women in computing","Computer sales","Gaming companies","Internet providers"],
-a:0
-},
-
-{
-q:"AI stands for:",
-o:["Artificial Intelligence","Automatic Internet","Advanced Interface","Applied Information"],
-a:0
-},
-
-{
-q:"Machine Learning allows computers to:",
-o:["Learn patterns from data","Replace electricity","Create hardware","Repair screens"],
-a:0
-},
-
-{
-q:"Which language is popular for AI development?",
-o:["Python","HTML","CSS","XML"],
-a:0
-},
-
-{
-q:"A dataset is:",
-o:["A collection of data","A computer chip","A password","A browser"],
-a:0
-},
-
-{
-q:"NLP helps computers understand:",
-o:["Human language","Computer cables","Battery power","Screens"],
-a:0
-},
-
-{
-q:"Neural networks are inspired by:",
-o:["Human brain","Keyboard","Monitor","Printer"],
-a:0
-},
-
-{
-q:"Responsible AI focuses on:",
-o:["Fairness and safety","Removing testing","Ignoring users","Hiding data"],
-a:0
-},
-
-{
-q:"AI models are tested to check:",
-o:["Performance accuracy","Screen brightness","Internet speed","Hardware size"],
-a:0
-},
-
-{
-q:"Deep Learning uses:",
-o:["Neural networks","Printers","USB drives","Antennas"],
-a:0
-},
-
-{
-q:"Computer vision helps AI understand:",
-o:["Images","Passwords","Batteries","Cables"],
-a:0
-},
-
-{
-q:"Algorithm means:",
-o:["Step-by-step solution","Computer screen","Storage device","Network cable"],
-a:0
-},
-
-{
-q:"Cloud computing provides:",
-o:["Online computing resources","Keyboard repair","Physical machines only","Paper storage"],
-a:0
-},
-
-{
-q:"ACM is related to:",
-o:["Computing and technology","Food science","Sports","Medicine"],
-a:0
-}
-
-];
-
-
-let index=0;
-let score=0;
-let time=20;
-let timer;
-let player="";
-
-
-function startQuiz(){
-
-player=document.getElementById("name").value;
-
-if(player==""){
-player="Explorer";
-}
-
-
-index=0;
-score=0;
-
-
-showQuestion();
-
-}
-
-
-
-function showQuestion(){
-
-
-let app=document.getElementById("app");
-
-
-if(index>=questions.length){
-
-clearInterval(timer);
-
-
-let percent=Math.round(
-(score/questions.length)*100
-);
-
-
-let rank;
-
-
-if(percent>=80){
-rank="🏆 AI Master";
-}
-
-else if(percent>=60){
-rank="🚀 AI Explorer";
-}
-
-else{
-rank="🌱 AI Beginner";
-}
-
-
-app.innerHTML=`
-
-<h2>Mission Complete</h2>
-
-<p>${player}, your AI report is ready.</p>
-
-
-<div class="score">
-${score}/${questions.length}
-</div>
-
-
-<h2>${percent}% Accuracy</h2>
-
-
-<div class="badge">
-${rank}
-</div>
-
-
-<p>
-You completed the ACM-W AI Nexus challenge.
-</p>
-
-
-<button onclick="location.reload()">
-Restart Mission
-</button>
-
-`;
-
-return;
-
-}
-
-
-
-let q=questions[index];
-
-
-time=20;
-
-
-app.innerHTML=
-
-`
-
-<div class="top">
-
-<span>
-Question ${index+1}/${questions.length}
-</span>
-
-
-<span class="timer">
-⏱ <span id="time">20</span>s
-</span>
-
-
-</div>
-
-
-
-<div class="progress">
-
-<div style="
-width:${(index/questions.length)*100}%
-">
-
-</div>
-
-</div>
-
-
-<h2>${q.q}</h2>
-
-
-${q.o.map((x,i)=>
-
-`
-
-<button class="option"
-onclick="answer(${i},this)">
-
-${x}
-
-</button>
-
-`
-
-).join("")}
-
-
-`;
-
-
-startTimer();
-
-}
-
-
-
-
-function startTimer(){
-
-clearInterval(timer);
-
-
-timer=setInterval(()=>{
-
-
-time--;
-
-
-let t=document.getElementById("time");
-
-
-if(t){
-t.innerHTML=time;
-}
-
-
-
-if(time<=0){
-
-clearInterval(timer);
-
-index++;
-
-showQuestion();
-
-}
-
-
-},1000);
-
-
-}
-
-
-
-
-
-function answer(selected,button){
-
-
-clearInterval(timer);
-
-
-let buttons=document.querySelectorAll(".option");
-
-
-buttons.forEach((b,i)=>{
-
-
-if(i===questions[index].a){
-
-b.classList.add("correct");
-
-}
-
-
-});
-
-
-if(selected!==questions[index].a){
-
-button.classList.add("wrong");
-
-}
-
-else{
-
-score++;
-
-}
-
-
-setTimeout(()=>{
-
-index++;
-
-showQuestion();
-
-
-},800);
-
-
-
-}
-
-
-</script>
-
+  <div class="container">
+    <div class="header">
+      <div class="header-title">
+        <span>🤖</span> ACM-W AI NEXUS PRO
+      </div>
+      <div class="header-subtitle">AI Knowledge Championship</div>
+      <div class="creator-tag">Created by <strong>Devyansh Mehta</strong></div>
+    </div>
+
+    <!-- Active Quiz Screen -->
+    <div id="quiz-screen" class="card">
+      <div id="question-text" class="question-box">Loading question...</div>
+      <div id="options-container" class="options-grid"></div>
+    </div>
+
+    <!-- Final Results Screen -->
+    <div id="results-screen" class="card hidden">
+      <h2 class="card-title">Mission Complete</h2>
+      <p class="user-greeting">Participant, your AI report is ready.</p>
+      
+      <div id="score-display" class="score-number">0/15</div>
+      <div id="accuracy-display" class="accuracy-text">0% Accuracy</div>
+      <div id="badge-display" class="badge-text">🏆 AI Master</div>
+      <p class="completion-note">You completed the ACM-W AI Nexus challenge.</p>
+
+      <button id="restart-btn" class="btn-action" onclick="startQuiz()">Restart Mission</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Sample Question Set (15 Questions Total)
+    const quizData = [
+      { question: "What does AI stand for?", options: ["Artificial Intelligence", "Automated Integration", "Advanced Interface", "Algorithmic Insight"], answer: 0 },
+      { question: "Which test evaluates if a machine exhibits human intelligence?", options: ["Voight-Kampff Test", "Turing Test", "CAPTCHA Test", "Binary Test"], answer: 1 },
+      { question: "Which algorithm is commonly used for neural network training?", options: ["Backpropagation", "QuickSort", "Dijkstra's Algorithm", "K-Means"], answer: 0 },
+      { question: "What does ACM-W support?", options: ["Women in Computing", "Hardware Manufacturing", "Web Browsers", "Database Management"], answer: 0 },
+      { question: "Which field sub-categorizes Machine Learning?", options: ["Robotics", "Artificial Intelligence", "Cybersecurity", "Networking"], answer: 1 },
+      { question: "What type of learning uses labelled data?", options: ["Unsupervised Learning", "Supervised Learning", "Reinforcement Learning", "Self Learning"], answer: 1 },
+      { question: "Which parameter controls learning speed in ML?", options: ["Epoch Rate", "Learning Rate", "Batch Size", "Momentum"], answer: 1 },
+      { question: "What is NLP in Artificial Intelligence?", options: ["National Logic Protocol", "Natural Language Processing", "Neural Link Programming", "Network Layer Protocol"], answer: 1 },
+      { question: "Which AI model type generates new text or media?", options: ["Generative AI", "Analytical AI", "Reactive AI", "Deterministic AI"], answer: 0 },
+      { question: "What is the main component of a Deep Learning system?", options: ["Decision Trees", "Artificial Neural Networks", "Relational Tables", "State Machines"], answer: 1 },
+      { question: "Which algorithm uses reward-based learning?", options: ["Supervised Learning", "Unsupervised Learning", "Reinforcement Learning", "Clustering"], answer: 2 },
+      { question: "What is overfitting in Machine Learning?", options: ["Model fits training data too well", "Model is too simple", "Model trains too fast", "Model lacks memory"], answer: 0 },
+      { question: "Which python library is widely used for Data Science?", options: ["Pandas", "React", "Django", "Laravel"], answer: 0 },
+      { question: "What does LLM stand for?", options: ["Large Language Model", "Linear Logic Machine", "Logical Link Method", "Latent Learning Mode"], answer: 0 },
+      { question: "What field combines vision processing with AI?", options: ["Computer Vision", "Graphics Rendering", "Spatial Audio", "Haptics"], answer: 0 }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let isAnswered = false;
+
+    // 2. Start/Reset Quiz State
+    function startQuiz() {
+      score = 0; // RESET SCORE TO ZERO
+      currentQuestionIndex = 0;
+      isAnswered = false;
+
+      document.getElementById('results-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+
+      showQuestion();
+    }
+
+    // 3. Render Current Question
+    function showQuestion() {
+      isAnswered = false;
+      const q = quizData[currentQuestionIndex];
+      document.getElementById('question-text').textContent = `${currentQuestionIndex + 1}. ${q.question}`;
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = optText;
+        btn.onclick = () => selectOption(idx);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    // 4. Handle Option Selection & Prevent Spam Clicks
+    function selectOption(selectedIndex) {
+      if (isAnswered) return;
+      isAnswered = true;
+
+      // Lock buttons instantly
+      const buttons = document.querySelectorAll('.option-btn');
+      buttons.forEach(b => b.disabled = true);
+
+      if (selectedIndex === quizData[currentQuestionIndex].answer) {
+        score++;
+      }
+
+      setTimeout(() => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+          showQuestion();
+        } else {
+          showResults();
+        }
+      }, 500);
+    }
+
+    // 5. Compute & Display Final Clean Results
+    function showResults() {
+      const totalQuestions = quizData.length; // Dynamic 15
+      const finalScore = Math.min(score, totalQuestions); // Cap score at max
+      const accuracy = Math.round((finalScore / totalQuestions) * 100);
+
+      document.getElementById('score-display').textContent = `${finalScore}/${totalQuestions}`;
+      document.getElementById('accuracy-display').textContent = `${accuracy}% Accuracy`;
+
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('results-screen').classList.remove('hidden');
+    }
+
+    // Auto-start on load
+    startQuiz();
+  </script>
 </body>
-
 </html>
-
-
-<input id="name" placeholder="Enter your name">
-
-
-<br>
-
-
-<button onclick="startQuiz()">
-INITIALIZE MISSION
-</button>
-
-
-</div>
-
-
-</div>
